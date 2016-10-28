@@ -36,6 +36,10 @@ namespace Microsoft.AspNetCore.Mvc.FunctionalTests
             // Even though there are two forms there should only be one response cookie,
             // as for the second form, the cookie from the first token should be reused.
             Assert.Single(setCookieHeader);
+
+            Assert.True(response.Headers.CacheControl.NoCache);
+            var pragmaValue = Assert.Single(response.Headers.Pragma.ToArray());
+            Assert.Equal("no-cache", pragmaValue.Value);
         }
 
         [Fact]

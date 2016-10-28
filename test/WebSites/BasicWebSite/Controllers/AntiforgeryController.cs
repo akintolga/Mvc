@@ -56,5 +56,13 @@ namespace BasicWebSite.Controllers
         {
             return "OK";
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [ResponseCache(Duration = 60)]
+        public ActionResult ViewWithAntiforgeryTokenAndResponseCaching()
+        {
+            return View();
+        }
     }
 }
