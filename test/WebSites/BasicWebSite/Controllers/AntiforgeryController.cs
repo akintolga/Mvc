@@ -60,7 +60,7 @@ namespace BasicWebSite.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ResponseCache(Duration = 60)]
-        public ActionResult ViewWithAntiforgeryTokenAndResponseCaching()
+        public ActionResult AntiforgeryTokenAndResponseCaching()
         {
             return View();
         }
