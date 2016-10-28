@@ -21,7 +21,7 @@ namespace Microsoft.AspNetCore.Mvc
     public class ValidateAntiForgeryTokenAttribute : Attribute, IFilterFactory, IOrderedFilter
     {
         /// <inheritdoc />
-        public int Order { get; set; }
+        public int Order { get; set; } = 1000;
 
         /// <inheritdoc />
         public bool IsReusable => true;
