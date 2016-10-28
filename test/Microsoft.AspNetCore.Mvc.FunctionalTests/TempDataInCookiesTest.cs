@@ -1,9 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Net.Http.Headers;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Mvc.FunctionalTests
@@ -35,6 +38,15 @@ namespace Microsoft.AspNetCore.Mvc.FunctionalTests
 
             // Assert 1
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var cookies = response.Headers.GetValues(HeaderNames.SetCookie);
+            var cookieTempDataProviderCookies = cookies.Where(cookie => cookie.Contains(CookieTempDataProvider.CookieName));
+            Assert.NotNull(cookieTempDataProviderCookies);
+
+            // Verify that all the cookies from CookieTempDataProvider are within the maximum size
+            foreach (var cookie in cookieTempDataProviderCookies)
+            {
+                Assert.True(cookie.Length <= DefaultChunkSize);
+            }
 
             // Act 2
             response = await Client.SendAsync(GetRequest("/TempData/GetLargeValueFromTempData", response));
